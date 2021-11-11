@@ -14,7 +14,7 @@ import com.notacompany.myaffairs.data.model.Project
 
 
 class ProjectsAdapter(
-    private val clickListener: OnRecyclerItemClicked
+    private val clickListener: OnRecyclerProjectClicked
     ): ListAdapter<Project, ProjectsAdapter.ProjectsViewHolder>(ProjectsComparator()) {
 
 
@@ -60,7 +60,7 @@ class ProjectsAdapter(
     }
 }
 
-interface OnRecyclerItemClicked {
+interface OnRecyclerProjectClicked {
     fun onClick(project: Project)
 }
 

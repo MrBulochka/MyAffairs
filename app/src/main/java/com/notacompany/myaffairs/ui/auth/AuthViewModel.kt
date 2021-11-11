@@ -35,9 +35,8 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    suspend fun isAuthenticatedUser() {
+    fun isAuthenticatedUser() {
         isAuthorized.postValue(AuthRepository().currentUser())
 
     }
-
 }

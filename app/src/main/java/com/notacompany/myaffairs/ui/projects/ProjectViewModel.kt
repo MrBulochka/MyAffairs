@@ -10,14 +10,7 @@ class ProjectViewModel(private val repository: DataRepository): ViewModel() {
 
     val allProject: LiveData<List<Project>> = repository.allProjects.asLiveData()
 
-//    var project = MutableLiveData<Project>()
     private lateinit var project: Project
-
-    fun insert(project: Project) {
-        viewModelScope.launch {
-            repository.insert(project)
-        }
-    }
 
     fun delete(project: Project) {
         viewModelScope.launch {
@@ -25,9 +18,14 @@ class ProjectViewModel(private val repository: DataRepository): ViewModel() {
         }
     }
 
+    fun update(project: Project) {
+        viewModelScope.launch {
+            repository.update(project)
+        }
+    }
+
     fun setProject(project: Project) {
         this.project = project
-        Log.d("my log", "set project - $project")
     }
 
     fun getProject() = project

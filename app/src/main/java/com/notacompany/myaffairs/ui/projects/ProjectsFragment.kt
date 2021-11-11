@@ -14,11 +14,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.transition.MaterialContainerTransform
 import com.notacompany.myaffairs.AuthActivity
 import com.notacompany.myaffairs.R
 import com.notacompany.myaffairs.adapters.GridSpacingItemDecoration
-import com.notacompany.myaffairs.adapters.OnRecyclerItemClicked
+import com.notacompany.myaffairs.adapters.OnRecyclerProjectClicked
 import com.notacompany.myaffairs.adapters.ProjectsAdapter
 import com.notacompany.myaffairs.data.AppApplication
 import com.notacompany.myaffairs.data.model.Project
@@ -75,7 +74,7 @@ class ProjectsFragment : Fragment(R.layout.projects_fragment) {
             signOut()
         }
     }
-    private val clickListener = object : OnRecyclerItemClicked {
+    private val clickListener = object : OnRecyclerProjectClicked {
         override fun onClick(project: Project) {
             projectViewModel.setProject(project)
             findNavController().navigate(R.id.action_projects_to_projectCard)

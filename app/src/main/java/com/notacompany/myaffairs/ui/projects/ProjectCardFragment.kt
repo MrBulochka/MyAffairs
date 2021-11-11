@@ -17,9 +17,10 @@ import com.notacompany.myaffairs.data.model.Project
 import android.view.ViewGroup
 
 import android.view.LayoutInflater
+import android.widget.ImageView
 
 
-class ProjectCardFragment : Fragment() {
+class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
 
     private val projectViewModel: ProjectViewModel by activityViewModels {
         ProjectViewModelFactory((activity?.application as AppApplication).repository)
@@ -30,16 +31,7 @@ class ProjectCardFragment : Fragment() {
     private lateinit var addButton: FloatingActionButton
     private lateinit var project: Project
     private lateinit var toolbar: androidx.appcompat.widget.Toolbar
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.project_card_fragment, container, false)
-        setHasOptionsMenu(true)
-        return view
-    }
+    private lateinit var editIcon: ImageView
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,6 +48,7 @@ class ProjectCardFragment : Fragment() {
         textDeadline = view.findViewById(R.id.project_text_deadline)
         textDescription = view.findViewById(R.id.project_text_description)
         addButton = view.findViewById(R.id.add_button)
+        editIcon = view.findViewById(R.id.edit_icon)
     }
 
     private fun initToolbar(view: View) {
@@ -67,6 +60,10 @@ class ProjectCardFragment : Fragment() {
     private fun setUpClickListener() {
         addButton.setOnClickListener {
             findNavController().navigate(R.id.action_projectCard_to_taskCard)
+        }
+
+        editIcon.setOnClickListener {
+            findNavController().navigate(R.id.action_projectCard_to_editProject)
         }
 
         toolbar.setOnMenuItemClickListener { item ->

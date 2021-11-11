@@ -11,7 +11,7 @@
         android:label="All projects"
         tools:layout="@layout/projects_fragment">
         <action android:id="@+id/action_projects_to_projectEdit"
-            app:destination="@id/project_edit"/>
+            app:destination="@id/add_project"/>
         <action android:id="@+id/action_projects_to_projectCard"
             app:destination="@id/project_card"/>
     </fragment>
@@ -36,11 +36,11 @@
     </fragment>
 
     <fragment
-        android:id="@+id/project_edit"
-        android:name="com.notacompany.myaffairs.ui.projects.ProjectEditingFragment"
-        tools:layout="@layout/project_editing_fragment">
+        android:id="@+id/add_project"
+        android:name="com.notacompany.myaffairs.ui.projects.AddProjectFragment"
+        tools:layout="@layout/add_project_fragment">
         <action
-            android:id="@+id/action_projectEdit_to_projects"
+            android:id="@+id/action_addProject_to_projects"
             app:destination="@id/navigation_projects"
             app:popUpTo="@id/navigation_projects"
             app:popUpToInclusive="true" />
@@ -59,6 +59,22 @@
             android:id="@+id/action_projectCard_to_taskCard"
             app:destination="@id/task_card"
             app:popUpTo="@id/project_card" />
+        <action
+            android:id="@+id/action_projectCard_to_editProject"
+            app:destination="@id/edit_project"
+            app:popUpTo="@id/project_card" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/edit_project"
+        android:name="com.notacompany.myaffairs.ui.projects.EditProjectFragment"
+        tools:layout="@layout/add_project_fragment">
+        <action
+            android:id="@+id/action_editProject_to_projects"
+            app:destination="@id/navigation_projects"
+            app:popUpTo="@id/navigation_projects"
+            app:popUpToInclusive="true" />
+
     </fragment>
 
 </navigation>

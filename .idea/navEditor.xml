@@ -8,13 +8,45 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="add_project">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-151" />
+                            <option name="y" value="-82" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_projectEdit_to_projects">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="edit_project">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-209" />
+                            <option name="y" value="285" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="navigation_my_tasks">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="8" />
-                            <option name="y" value="272" />
+                            <option name="y" value="340" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -40,6 +72,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_projects_to_projectCard">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_projects_to_projectEdit">
                               <value>
                                 <LayoutPositions />
@@ -55,34 +92,18 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="242" />
-                            <option name="y" value="-85" />
+                            <option name="x" value="270" />
+                            <option name="y" value="-97" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_projectEdit_to_projects">
+                            <entry key="action_projectCard_to_projects">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
-                          </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="project_edit">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="-151" />
-                            <option name="y" value="-82" />
-                          </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_projectEdit_to_projects">
+                            <entry key="action_projectCard_to_taskCard">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -97,8 +118,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="216" />
-                            <option name="y" value="270" />
+                            <option name="x" value="266" />
+                            <option name="y" value="355" />
                           </Point>
                         </option>
                         <option name="myPositions">

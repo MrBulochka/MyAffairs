@@ -12,6 +12,10 @@ class DataRepository(private val projectDao: ProjectDao) {
         projectDao.insert(project)
     }
 
+    suspend fun update(project: Project) {
+        projectDao.update(project)
+    }
+
     suspend fun delete(project: Project) {
         projectDao.delete(project)
     }
