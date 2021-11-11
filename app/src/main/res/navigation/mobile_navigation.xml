@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_projects">
+
+    <fragment
+        android:id="@+id/navigation_projects"
+        android:name="com.notacompany.myaffairs.ui.projects.ProjectsFragment"
+        android:label="All projects"
+        tools:layout="@layout/projects_fragment">
+        <action android:id="@+id/action_projects_to_projectEdit"
+            app:destination="@id/project_edit"/>
+        <action android:id="@+id/action_projects_to_projectCard"
+            app:destination="@id/project_card"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_my_tasks"
+        android:name="com.notacompany.myaffairs.ui.my_tasks.MyTasksFragment"
+        android:label="My tasks"
+        tools:layout="@layout/my_tasks_fragment">
+        <action android:id="@+id/action_myTasks_to_taskCard"
+            app:destination="@id/task_card"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/task_card"
+        android:name="com.notacompany.myaffairs.ui.task_card.TaskCardFragment"
+        android:label="Task card"
+        tools:layout="@layout/task_card_fragment">
+        <action
+            android:id="@+id/action_taskCard_to_myTasks"
+            app:destination="@id/navigation_my_tasks" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/project_edit"
+        android:name="com.notacompany.myaffairs.ui.projects.ProjectEditingFragment"
+        tools:layout="@layout/project_editing_fragment">
+        <action
+            android:id="@+id/action_projectEdit_to_projects"
+            app:destination="@id/navigation_projects"
+            app:popUpTo="@id/navigation_projects"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/project_card"
+        android:name="com.notacompany.myaffairs.ui.projects.ProjectCardFragment"
+        tools:layout="@layout/project_card_fragment">
+        <action
+            android:id="@+id/action_projectCard_to_projects"
+            app:destination="@id/navigation_projects"
+            app:popUpTo="@id/navigation_projects"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_projectCard_to_taskCard"
+            app:destination="@id/task_card"
+            app:popUpTo="@id/project_card" />
+    </fragment>
+
+</navigation>

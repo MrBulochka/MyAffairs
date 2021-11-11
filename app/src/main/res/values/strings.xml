@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">My Affairs</string>
+    <string name="project_name">Name</string>
+    <string name="project_description">Description</string>
+    <string name="set_time_button">Set time</string>
+    <string name="Add_reminder">Add a reminder</string>
+    <string name="subtasks">SUBTASKS:</string>
+    <string name="new_subtask">+ New subtask</string>
+    <string name="my_projects">My projects</string>
+    <string name="my_tasks">My tasks</string>
+    <string name="email" translatable="false">Email</string>
+    <string name="password">Password</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="sign_in_button">Sign in</string>
+    <string name="switch_view_auth">Do not have an account? Register now!</string>
+    <string name="registration_button">registration</string>
+    <string name="project_deadline">Deadline</string>
+    <string name="switch_view_reg">Already have an account? Auto-cut!</string>
+    <string name="delete">DELETE</string>
+
+</resources>

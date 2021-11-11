@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My Affairs</string>
+    <string name="project_name">Название</string>
+    <string name="project_description">Описание</string>
+    <string name="set_time_button">Установить время</string>
+    <string name="Add_reminder">Добавить напоминание</string>
+    <string name="subtasks">ПОДЗАДАЧИ:</string>
+    <string name="new_subtask">+ Новая подзадача</string>
+    <string name="my_projects">Мои проекты</string>
+    <string name="my_tasks">Мои задачи</string>
+    <string name="password">Пароль</string>
+    <string name="repeat_password">Повторите пароль</string>
+    <string name="sign_in_button">Войти</string>
+    <string name="switch_view_auth">Нет аккаунта? Зарегистрируйтесь!</string>
+    <string name="registration_button">Зарегистрироваться</string>
+    <string name="project_deadline">Дедлайн</string>
+    <string name="switch_view_reg">Уже есть аккаунт? Авторизируйтесь!</string>
+    <string name="delete">УДАЛИТЬ</string>
+</resources>

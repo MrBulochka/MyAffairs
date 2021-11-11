@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation_2"
+    app:startDestination="@+id/authorization">
+
+    <fragment
+        android:id="@+id/authorization"
+        android:name="com.notacompany.myaffairs.ui.auth.AuthFragment"
+        android:label="authorization"
+        tools:layout="@layout/auth_fragment"/>
+
+    <fragment
+        android:id="@+id/registration"
+        android:name="com.notacompany.myaffairs.ui.auth.RegistrFragment"
+        android:label="registration"
+        tools:layout="@layout/regist_fragment"/>
+
+</navigation>
