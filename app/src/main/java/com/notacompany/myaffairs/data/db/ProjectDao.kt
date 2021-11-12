@@ -2,6 +2,7 @@ package com.notacompany.myaffairs.data.db
 
 import androidx.room.*
 import com.notacompany.myaffairs.data.model.Project
+import com.notacompany.myaffairs.data.model.ProjectsWithTasks
 import kotlinx.coroutines.flow.Flow
 
 @Dao

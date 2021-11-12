@@ -16,11 +16,11 @@ data class Project (
     val deadline: String
 )
 
-//data class ProjectsWithTasks(
-//    @Embedded val project: Project,
-//    @Relation(
-//        parentColumn = "Id",
-//        entityColumn = "taskId"
-//    )
-//    val tasks: List<Task>
-//)
+data class ProjectsWithTasks(
+    @Embedded val project: Project,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "task_id"
+    )
+    val tasks: List<Task>
+)

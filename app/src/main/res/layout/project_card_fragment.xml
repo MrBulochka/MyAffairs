@@ -15,11 +15,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/settings_menu">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/edit_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_edit_24"
+            android:background="@color/yellow_green"
             android:layout_gravity="end"/>
 
     </androidx.appcompat.widget.Toolbar>

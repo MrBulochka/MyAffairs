@@ -17,6 +17,7 @@ import com.notacompany.myaffairs.data.model.Project
 import android.view.ViewGroup
 
 import android.view.LayoutInflater
+import android.widget.ImageButton
 import android.widget.ImageView
 
 
@@ -31,7 +32,7 @@ class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
     private lateinit var addButton: FloatingActionButton
     private lateinit var project: Project
     private lateinit var toolbar: androidx.appcompat.widget.Toolbar
-    private lateinit var editIcon: ImageView
+    private lateinit var editIcon: Button
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
