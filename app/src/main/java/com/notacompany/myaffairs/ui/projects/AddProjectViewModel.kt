@@ -7,9 +7,9 @@ import kotlinx.coroutines.launch
 
 class AddProjectViewModel(private val repository: DataRepository): ViewModel() {
 
-    fun insert(project: Project) {
+    fun insertProject(project: Project) {
         viewModelScope.launch {
-            repository.insert(project)
+            repository.insertProject(project)
         }
     }
 }

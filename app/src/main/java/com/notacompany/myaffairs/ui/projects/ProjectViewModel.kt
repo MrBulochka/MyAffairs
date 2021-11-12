@@ -3,12 +3,14 @@ package com.notacompany.myaffairs.ui.projects
 import android.util.Log
 import androidx.lifecycle.*
 import com.notacompany.myaffairs.data.model.Project
+import com.notacompany.myaffairs.data.model.Task
 import com.notacompany.myaffairs.data.repository.DataRepository
 import kotlinx.coroutines.launch
 
 class ProjectViewModel(private val repository: DataRepository): ViewModel() {
 
     val allProject: LiveData<List<Project>> = repository.allProjects.asLiveData()
+    var projectTasks = MutableLiveData<List<Task>>()
 
     private lateinit var project: Project
 
@@ -29,6 +31,20 @@ class ProjectViewModel(private val repository: DataRepository): ViewModel() {
     }
 
     fun getProject() = project
+
+    fun insertTask(task: Task) {
+        viewModelScope.launch {
+            repository.insertTask(task)
+        }
+    }
+
+    fun getProjectTasks(id: Long?) {
+        viewModelScope.launch {
+            projectTasks.setValue(repository.getProjectTasks(id))
+            val tasks = projectTasks.value
+            Log.d("My TAG", "liveData \n $tasks")
+        }
+    }
 
 }
 

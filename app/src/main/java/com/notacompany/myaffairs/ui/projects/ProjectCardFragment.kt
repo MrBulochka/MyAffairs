@@ -2,8 +2,6 @@ package com.notacompany.myaffairs.ui.projects
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
@@ -13,12 +11,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.notacompany.myaffairs.R
 import com.notacompany.myaffairs.data.AppApplication
 import com.notacompany.myaffairs.data.model.Project
-
-import android.view.ViewGroup
-
-import android.view.LayoutInflater
-import android.widget.ImageButton
-import android.widget.ImageView
+import android.widget.*
+import androidx.recyclerview.widget.RecyclerView
+import com.notacompany.myaffairs.adapters.TasksAdapter
 
 
 class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
@@ -32,8 +27,9 @@ class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
     private lateinit var addButton: FloatingActionButton
     private lateinit var project: Project
     private lateinit var toolbar: androidx.appcompat.widget.Toolbar
-    private lateinit var editIcon: Button
-
+    private lateinit var editIcon: ImageButton
+    private lateinit var recycler: RecyclerView
+    private lateinit var adapter: TasksAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,7 +37,7 @@ class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
 
         initViews(view)
         initToolbar(view)
-        getProject()
+        showProject()
         setUpClickListener()
     }
 
@@ -50,6 +46,9 @@ class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
         textDescription = view.findViewById(R.id.project_text_description)
         addButton = view.findViewById(R.id.add_button)
         editIcon = view.findViewById(R.id.edit_icon)
+        recycler = view.findViewById(R.id.projectTasks_recycler)
+        adapter = TasksAdapter()
+        recycler.adapter = adapter
     }
 
     private fun initToolbar(view: View) {
@@ -62,11 +61,9 @@ class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
         addButton.setOnClickListener {
             findNavController().navigate(R.id.action_projectCard_to_taskCard)
         }
-
         editIcon.setOnClickListener {
             findNavController().navigate(R.id.action_projectCard_to_editProject)
         }
-
         toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.delete -> {
@@ -78,10 +75,18 @@ class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
         }
     }
 
-    private fun getProject() {
+    private fun showProject() {
         project = projectViewModel.getProject()
         toolbar.title = project.title
         textDescription.text = project.description
         textDeadline.text = project.deadline
+        showTasks(project.id)
+    }
+
+    private fun showTasks(id: Long?) {
+        projectViewModel.getProjectTasks(id)
+        projectViewModel.projectTasks.observe(requireActivity()) { tasks ->
+            tasks.let { adapter.submitList(it) }
+        }
     }
 }

@@ -17,5 +17,6 @@
     <string name="project_deadline">Deadline</string>
     <string name="switch_view_reg">Already have an account? Auto-cut!</string>
     <string name="delete">DELETE</string>
+    <string name="tasks">Tasks:</string>
 
 </resources>

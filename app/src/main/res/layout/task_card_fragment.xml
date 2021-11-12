@@ -13,7 +13,20 @@
         android:layout_height="wrap_content"
         android:background="@color/yellow_green"
         app:titleTextColor="@color/white_smoke"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/task_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:maxLines="1"
+            android:hint="@string/project_name"
+            android:autofillHints="@string/project_name"
+            android:inputType="text" />
+
+    </androidx.appcompat.widget.Toolbar>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_button"
@@ -37,21 +50,12 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp">
 
-            <EditText
-                android:id="@+id/task_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="32sp"
-                android:maxLines="2"
-                android:hint="@string/project_name"
-                android:autofillHints="@string/project_name"
-                android:inputType="text" />
-
             <TextView
-                android:id="@+id/task_date"
+                android:id="@+id/deadline"
                 android:text="no time assigned"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"/>
 
             <EditText
@@ -87,7 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:isScrollContainer="false"/>
+                    android:isScrollContainer="false" />
 
             </LinearLayout>
 

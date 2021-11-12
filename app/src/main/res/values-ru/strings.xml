@@ -17,4 +17,5 @@
     <string name="project_deadline">Дедлайн</string>
     <string name="switch_view_reg">Уже есть аккаунт? Авторизируйтесь!</string>
     <string name="delete">УДАЛИТЬ</string>
+    <string name="tasks">Задачи:</string>
 </resources>

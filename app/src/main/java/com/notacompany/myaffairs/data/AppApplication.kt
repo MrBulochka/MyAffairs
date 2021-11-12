@@ -7,5 +7,6 @@ import com.notacompany.myaffairs.data.repository.DataRepository
 class AppApplication: Application() {
 
     val database by lazy { AppDatabase.getDatabase(this) }
-    val repository by lazy { DataRepository(database.projectDao()) }
+    val repository by lazy { DataRepository(database.projectDao(),
+                                            database.taskDao()) }
 }

@@ -12,11 +12,9 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.notacompany.myaffairs.R
 import com.notacompany.myaffairs.data.model.Project
 
-
 class ProjectsAdapter(
     private val clickListener: OnRecyclerProjectClicked
     ): ListAdapter<Project, ProjectsAdapter.ProjectsViewHolder>(ProjectsComparator()) {
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProjectsViewHolder {
         val itemView: View =
@@ -42,7 +40,6 @@ class ProjectsAdapter(
         private val description: TextView = itemView.findViewById(R.id.project_description)
 
         fun onBind(project: Project) {
-            itemView.height
             textTitle?.text = project.title
             deadline.text = project.deadline
             description.text = project.description
@@ -51,9 +48,8 @@ class ProjectsAdapter(
 
     class ProjectsComparator : DiffUtil.ItemCallback<Project>() {
         override fun areItemsTheSame(oldItem: Project, newItem: Project): Boolean {
-            return oldItem.title == newItem.title
+            return oldItem.id == newItem.id
         }
-
         override fun areContentsTheSame(oldItem: Project, newItem: Project): Boolean {
             return oldItem == newItem
         }

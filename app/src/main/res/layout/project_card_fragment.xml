@@ -47,9 +47,9 @@
             android:id="@+id/project_text_deadline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:maxLines="1"
-            android:textSize="20sp"
+            android:textSize="16sp"
             tools:text="31.12.21"/>
 
         <TextView
@@ -57,15 +57,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Написать приложение"
-            android:textSize="20sp"
-            android:layout_marginTop="16dp"/>
+            android:textSize="18sp"
+            android:layout_marginTop="4dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:textSize="16sp"
+            android:text="@string/tasks" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/projectTasks_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="8dp"/>
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/task_item"/>
 
     </LinearLayout>
 

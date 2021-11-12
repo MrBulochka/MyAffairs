@@ -29,6 +29,7 @@ class AddProjectFragment: Fragment(R.layout.add_project_fragment) {
     private lateinit var editDescription: EditText
     private lateinit var addButton: FloatingActionButton
     private var cal = Calendar.getInstance()
+    private lateinit var dateSetListener: DatePickerDialog.OnDateSetListener
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,7 +53,7 @@ class AddProjectFragment: Fragment(R.layout.add_project_fragment) {
     }
 
     private fun initDatePicker() {
-        val dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+        dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, monthOfYear)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -62,7 +63,13 @@ class AddProjectFragment: Fragment(R.layout.add_project_fragment) {
             textDate.text = sdf.format(cal.time)
         }
         textDate.text = SimpleDateFormat("dd.MM.yyyy").format(System.currentTimeMillis())
+    }
 
+    private fun setUpClickListener() {
+        addButton.setOnClickListener{
+            createProject()
+            findNavController().navigate(R.id.action_addProject_to_projects)
+        }
         textDate.setOnClickListener {
             DatePickerDialog(requireActivity(), dateSetListener,
                 cal.get(Calendar.YEAR),
@@ -71,19 +78,12 @@ class AddProjectFragment: Fragment(R.layout.add_project_fragment) {
         }
     }
 
-    private fun setUpClickListener() {
-        addButton.setOnClickListener{
-            createProject()
-            findNavController().navigate(R.id.action_addProject_to_projects)
-        }
-    }
-
     private fun createProject() {
-        val title = editName.text.toString()
+        val name = editName.text.toString()
         val deadline = textDate.text.toString()
         val description = editDescription.text.toString()
-        if (!TextUtils.isEmpty(title)) {
-            addProjectViewModel.insert(Project(null, title, description, deadline))
+        if (!TextUtils.isEmpty(name)) {
+            addProjectViewModel.insertProject(Project(null, name, description, deadline))
         }
     }
 }

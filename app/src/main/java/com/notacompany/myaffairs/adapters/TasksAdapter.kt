@@ -2,7 +2,11 @@ package com.notacompany.myaffairs.adapters
 
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -10,17 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.notacompany.myaffairs.R
 import com.notacompany.myaffairs.data.model.Task
 
-class TasksAdapter(
-    private val clickListener: OnRecyclerTaskClicked
-): ListAdapter<Task, TasksAdapter.TasksViewHolder>(TasksComparator()) {
-
+class TasksAdapter: ListAdapter<Task, TasksAdapter.TasksViewHolder>(TasksComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TasksViewHolder {
         val itemView: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.project_item, parent, false)
-//        val layoutParams = itemView.layoutParams
-//        layoutParams.height = (parent.height / 3.5).toInt()
-//        itemView.layoutParams = layoutParams
+            LayoutInflater.from(parent.context).inflate(R.layout.task_item, parent, false)
 
         return TasksViewHolder(itemView)
     }
@@ -28,25 +26,36 @@ class TasksAdapter(
     override fun onBindViewHolder(holder: TasksViewHolder, position: Int) {
         val task = getItem(position)
         holder.onBind(task)
-        holder.itemView.setOnClickListener {
-            clickListener.onClick(task)
-        }
+        holder.setUpClickListener()
     }
 
     class TasksViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val textName: TextView? = itemView.findViewById(R.id.project_title)
-        private val deadline: TextView = itemView.findViewById(R.id.project_deadline)
+        private val textName: TextView = itemView.findViewById(R.id.item_task_name)
+        private val checkBox: CheckBox = itemView.findViewById(R.id.checkbox)
+        private val deleteBtn: ImageView = itemView.findViewById(R.id.deleteTask_btn)
+//        private val deadline: TextView = itemView.findViewById(R.id.task_deadline)
+
+        fun setUpClickListener() {
+            checkBox.setOnClickListener {
+                if (checkBox.isChecked)
+                    deleteBtn.visibility = VISIBLE
+                else
+                    deleteBtn.visibility = GONE
+            }
+            deleteBtn.setOnClickListener{
+
+            }
+        }
 
         fun onBind(task: Task) {
-            itemView.height
-            textName?.text = task.name
-            deadline.text = task.deadline
+            textName.text = task.name
+//            deadline.text = task.deadline
         }
     }
 
     class TasksComparator : DiffUtil.ItemCallback<Task>() {
         override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean {
-            return oldItem.name == newItem.name
+            return oldItem.taskId == newItem.taskId
         }
 
         override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean {
@@ -54,27 +63,3 @@ class TasksAdapter(
         }
     }
 }
-
-interface OnRecyclerTaskClicked {
-    fun onClick(task: Task)
-}
-
-//class GridSpacingItemDecoration(private val spanCount: Int, private val spacing: Int) :
-//    RecyclerView.ItemDecoration() {
-//    override fun getItemOffsets(
-//        outRect: Rect,
-//        view: View,
-//        parent: RecyclerView,
-//        state: RecyclerView.State
-//    ) {
-//        val position = parent.getChildAdapterPosition(view) // item position
-//        val column = position % spanCount // item column
-//        outRect.left = spacing - column * spacing / spanCount
-//        outRect.right = (column + 1) * spacing / spanCount
-//        if (position < spanCount)
-//        // top edge
-//            outRect.top = spacing
-//        // item bottom
-//        outRect.bottom = spacing
-//    }
-//}

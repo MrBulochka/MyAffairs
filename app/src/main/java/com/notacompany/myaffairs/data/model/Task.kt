@@ -15,5 +15,5 @@ data class Task (
     val deadline: String,
 
     @ColumnInfo(name = "project_id")
-    val projectId: Long
+    val projectId: Long?
 )
