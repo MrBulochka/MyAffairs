@@ -18,5 +18,6 @@
     <string name="switch_view_reg">Already have an account? Auto-cut!</string>
     <string name="delete">DELETE</string>
     <string name="tasks">Tasks:</string>
+    <string name="new_task">New task</string>
 
 </resources>

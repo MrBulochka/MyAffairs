@@ -18,4 +18,5 @@
     <string name="switch_view_reg">Уже есть аккаунт? Авторизируйтесь!</string>
     <string name="delete">УДАЛИТЬ</string>
     <string name="tasks">Задачи:</string>
+    <string name="new_task">Новая задача</string>
 </resources>

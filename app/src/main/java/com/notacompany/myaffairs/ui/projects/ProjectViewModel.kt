@@ -14,9 +14,9 @@ class ProjectViewModel(private val repository: DataRepository): ViewModel() {
 
     private lateinit var project: Project
 
-    fun delete(project: Project) {
+    fun deleteProject(project: Project) {
         viewModelScope.launch {
-            repository.delete(project)
+            repository.deleteProject(project)
         }
     }
 
@@ -38,9 +38,27 @@ class ProjectViewModel(private val repository: DataRepository): ViewModel() {
         }
     }
 
+    fun updateTask(task: Task) {
+        viewModelScope.launch {
+            repository.updateTask(task)
+        }
+    }
+
+    fun deleteTask(task: Task) {
+        viewModelScope.launch {
+            repository.deleteTask(task)
+        }
+    }
+
+    fun deleteProjectTasks(id: Long?) {
+        viewModelScope.launch {
+            repository.deleteProjectTasks(id)
+        }
+    }
+
     fun getProjectTasks(id: Long?) {
         viewModelScope.launch {
-            projectTasks.setValue(repository.getProjectTasks(id))
+            projectTasks.value = repository.getProjectTasks(id)
             val tasks = projectTasks.value
             Log.d("My TAG", "liveData \n $tasks")
         }

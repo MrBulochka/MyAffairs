@@ -20,7 +20,7 @@ class DataRepository(private val projectDao: ProjectDao,
         projectDao.update(project)
     }
 
-    suspend fun delete(project: Project) {
+    suspend fun deleteProject(project: Project) {
         projectDao.delete(project)
     }
 
@@ -30,5 +30,17 @@ class DataRepository(private val projectDao: ProjectDao,
 
     suspend fun insertTask(task: Task) {
         taskDao.insert(task)
+    }
+
+    suspend fun updateTask(task: Task) {
+        taskDao.update(task)
+    }
+
+    suspend fun deleteTask(task: Task) {
+        taskDao.delete(task)
+    }
+
+    suspend fun deleteProjectTasks(id: Long?) {
+        taskDao.deleteProjectTasks(id)
     }
 }

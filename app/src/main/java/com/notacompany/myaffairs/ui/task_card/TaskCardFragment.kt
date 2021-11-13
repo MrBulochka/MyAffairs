@@ -91,7 +91,7 @@ class TaskCardFragment : Fragment(R.layout.task_card_fragment) {
         val name = nameEdit.text.toString()
         val deadline = deadline.text.toString()
         if (!TextUtils.isEmpty(name)) {
-            projectViewModel.insertTask(Task(null, name, deadline, project.id))
+            projectViewModel.insertTask(Task(null, name, deadline, complete = false, project.id))
 
         }
     }

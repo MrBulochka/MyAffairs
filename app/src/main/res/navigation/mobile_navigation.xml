@@ -28,6 +28,7 @@
     <fragment
         android:id="@+id/task_card"
         android:name="com.notacompany.myaffairs.ui.task_card.TaskCardFragment"
+        android:label="@string/new_task"
         tools:layout="@layout/task_card_fragment">
         <action
             android:id="@+id/action_taskCard_to_myTasks"

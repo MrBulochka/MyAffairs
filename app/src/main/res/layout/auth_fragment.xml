@@ -17,7 +17,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="-40dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/mail_container"
+        app:layout_constraintBottom_toTopOf="@+id/password_container1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -26,6 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/password_container1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +38,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -46,8 +47,8 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/auth_button"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:hint="@string/password"
@@ -67,7 +68,7 @@
         android:layout_width="200dp"
         android:layout_height="56dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="72dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/sign_in_button"
         app:layout_constraintBottom_toTopOf="@+id/switch_view"
         app:layout_constraintEnd_toEndOf="parent"

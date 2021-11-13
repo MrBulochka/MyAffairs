@@ -1,8 +1,6 @@
 package com.notacompany.myaffairs.data.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.notacompany.myaffairs.data.model.Project
 import com.notacompany.myaffairs.data.model.Task
 import kotlinx.coroutines.flow.Flow
@@ -18,4 +16,13 @@ interface TaskDao {
 
     @Insert
     suspend fun insert(task: Task)
+
+    @Update
+    suspend fun update(task: Task)
+
+    @Delete
+    suspend fun delete(task: Task)
+
+    @Query("DELETE FROM tasks_table WHERE project_id == :projectId")
+    suspend fun deleteProjectTasks(projectId: Long?)
 }

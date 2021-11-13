@@ -35,8 +35,4 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    fun isAuthenticatedUser() {
-        isAuthorized.postValue(AuthRepository().currentUser())
-
-    }
-}
+    fun isAuthenticatedUser() = isAuthorized.postValue(AuthRepository().currentUser())}

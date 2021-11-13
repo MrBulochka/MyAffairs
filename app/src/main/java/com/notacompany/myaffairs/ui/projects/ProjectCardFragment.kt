@@ -13,7 +13,9 @@ import com.notacompany.myaffairs.data.AppApplication
 import com.notacompany.myaffairs.data.model.Project
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import com.notacompany.myaffairs.adapters.OnTaskClickListener
 import com.notacompany.myaffairs.adapters.TasksAdapter
+import com.notacompany.myaffairs.data.model.Task
 
 
 class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
@@ -47,7 +49,7 @@ class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
         addButton = view.findViewById(R.id.add_button)
         editIcon = view.findViewById(R.id.edit_icon)
         recycler = view.findViewById(R.id.projectTasks_recycler)
-        adapter = TasksAdapter()
+        adapter = TasksAdapter(clickListener)
         recycler.adapter = adapter
     }
 
@@ -67,11 +69,30 @@ class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
         toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.delete -> {
-                    projectViewModel.delete(project)
+                    projectViewModel.deleteProject(project)
+                    projectViewModel.getProjectTasks(project.id)
                     activity?.onBackPressed()
                 }
             }
             false
+        }
+    }
+    private val clickListener = object : OnTaskClickListener {
+        override fun onCheckboxClick(task: Task, deleteBtn: ImageView, checkBox: CheckBox) {
+            if (checkBox.isChecked) {
+                deleteBtn.visibility = View.VISIBLE
+                val completeTask = Task(task.taskId, task.name, task.deadline, true, task.projectId)
+                projectViewModel.updateTask(completeTask)
+            }else {
+                deleteBtn.visibility = View.GONE
+                val completeTask = Task(task.taskId, task.name, task.deadline, false, task.projectId)
+                projectViewModel.updateTask(completeTask)
+            }
+        }
+
+        override fun onDeleteBtnClick(task: Task) {
+            projectViewModel.deleteTask(task)
+            projectViewModel.getProjectTasks(project.id)
         }
     }
 
