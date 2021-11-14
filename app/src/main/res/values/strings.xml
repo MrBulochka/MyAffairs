@@ -19,5 +19,7 @@
     <string name="delete">DELETE</string>
     <string name="tasks">Tasks:</string>
     <string name="new_task">New task</string>
+    <string name="create_btn">Create</string>
+    <string name="save_btn">Save</string>
 
 </resources>

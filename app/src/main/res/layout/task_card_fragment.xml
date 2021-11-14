@@ -18,14 +18,18 @@
     </androidx.appcompat.widget.Toolbar>
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <Button
         android:id="@+id/add_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_baseline_check_24"
+        android:drawableLeft="@drawable/ic_paw"
+        android:text="@string/save_btn"
+        android:textSize="18sp"
+        android:background="@drawable/button_background"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <ScrollView
         android:layout_width="match_parent"

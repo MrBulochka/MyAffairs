@@ -25,14 +25,18 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <Button
         android:id="@+id/add_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:drawableLeft="@drawable/ic_paw"
+        android:text="@string/create_btn"
+        android:textSize="18sp"
+        android:background="@drawable/button_background"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:src="@android:drawable/ic_input_add" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,7 +45,7 @@
         android:layout_marginEnd="8dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/project_card_toolbar"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toTopOf="@id/add_button">
 
         <TextView
             android:id="@+id/project_text_deadline"

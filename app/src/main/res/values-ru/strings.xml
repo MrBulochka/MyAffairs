@@ -19,4 +19,6 @@
     <string name="delete">УДАЛИТЬ</string>
     <string name="tasks">Задачи:</string>
     <string name="new_task">Новая задача</string>
+    <string name="create_btn">Создать</string>
+    <string name="save_btn">Сохранить</string>
 </resources>

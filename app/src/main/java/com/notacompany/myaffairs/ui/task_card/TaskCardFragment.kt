@@ -31,7 +31,7 @@ class TaskCardFragment : Fragment(R.layout.task_card_fragment) {
         ProjectViewModelFactory((activity?.application as AppApplication).repository)
     }
 
-    private lateinit var addBtn: FloatingActionButton
+    private lateinit var addBtn: Button
     private lateinit var nameEdit: EditText
     private lateinit var deadline: TextView
     private lateinit var setTimeBtn: Button
