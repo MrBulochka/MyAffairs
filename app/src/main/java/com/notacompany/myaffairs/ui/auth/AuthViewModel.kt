@@ -1,6 +1,7 @@
 package com.notacompany.myaffairs.ui.auth
 
 import android.text.TextUtils
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,23 +9,22 @@ import com.notacompany.myaffairs.data.repository.AuthRepository
 import kotlinx.coroutines.launch
 
 class AuthViewModel : ViewModel() {
-    var isAuthorized = MutableLiveData<Boolean>()
+
+    private val _isAuthorized = MutableLiveData<Boolean>()
+
+    val isAuthorized: LiveData<Boolean> get() = _isAuthorized
 
     fun signIn(email: String?, password: String?) {
-        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
-            viewModelScope.launch {
-                AuthRepository().signIn(email, password)
-                isAuthenticatedUser()
-            }
+        viewModelScope.launch {
+            AuthRepository().signIn(email, password)
+            isAuthenticatedUser()
         }
     }
 
     fun registration(email: String?, password: String?) {
-        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
-            viewModelScope.launch {
-                AuthRepository().registration(email, password)
-                isAuthenticatedUser()
-            }
+        viewModelScope.launch {
+            AuthRepository().registration(email, password)
+            isAuthenticatedUser()
         }
     }
 
@@ -35,4 +35,4 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    fun isAuthenticatedUser() = isAuthorized.postValue(AuthRepository().currentUser())}
+    fun isAuthenticatedUser() = _isAuthorized.postValue(AuthRepository().currentUser())}

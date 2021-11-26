@@ -1,13 +1,13 @@
 package com.notacompany.myaffairs.ui.auth
 
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import android.widget.*
+import android.widget.Toast.LENGTH_SHORT
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -22,6 +22,7 @@ class AuthFragment : Fragment(R.layout.auth_fragment) {
     private lateinit var passwordInput: EditText
     private lateinit var signInBtn: Button
     private lateinit var registerView: TextView
+    private lateinit var progressBar: ProgressBar
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,11 +38,14 @@ class AuthFragment : Fragment(R.layout.auth_fragment) {
         passwordInput = view.findViewById(R.id.edit_password1)
         signInBtn = view.findViewById(R.id.auth_button)
         registerView = view.findViewById(R.id.switch_view)
+        progressBar = view.findViewById(R.id.progressBar)
     }
 
     private fun setUpListners() {
         signInBtn.setOnClickListener {
             signIn()
+            signInBtn.isClickable = false
+            progressBar.visibility = VISIBLE
         }
 
         registerView.setOnClickListener {
@@ -51,13 +55,15 @@ class AuthFragment : Fragment(R.layout.auth_fragment) {
     private fun subscribeObservers() {
         activity?.let {
             authViewModel.isAuthorized.observe(viewLifecycleOwner, {
-            if (it) {
-                Log.d(ContentValues.TAG, "Authorized true AuthFragment")
-                moveToMainActivity()
-            } else {
-                Log.d(ContentValues.TAG, "Authorized false AuthFragment")
-            }
-        })
+                if (it) {
+                    moveToMainActivity()
+                } else {
+                    signInBtn.isClickable = true
+                    progressBar.visibility = GONE
+                    Toast.makeText(this.context, "Что-то пошло не так", LENGTH_SHORT)
+                        .show()
+                }
+            })
         }
     }
 

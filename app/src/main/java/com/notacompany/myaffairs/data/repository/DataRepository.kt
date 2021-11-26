@@ -20,11 +20,15 @@ class DataRepository(private val projectDao: ProjectDao,
         projectDao.update(project)
     }
 
+    suspend fun updateProjectOrder(projects: List<Project>) {
+        projectDao.updateProjectOrder(projects)
+    }
+
     suspend fun deleteProject(project: Project) {
         projectDao.delete(project)
     }
 
-    suspend fun getProjectTasks(id: Long?): List<Task> {
+    fun getProjectTasks(id: Long?): Flow<List<Task>> {
         return taskDao.getProjectTasks(id)
     }
 
@@ -34,6 +38,10 @@ class DataRepository(private val projectDao: ProjectDao,
 
     suspend fun updateTask(task: Task) {
         taskDao.update(task)
+    }
+
+    suspend fun updateTaskOrder(tasks: List<Task>) {
+        taskDao.updateTaskOrder(tasks)
     }
 
     suspend fun deleteTask(task: Task) {

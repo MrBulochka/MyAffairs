@@ -12,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.notacompany.myaffairs.AuthActivity
@@ -21,7 +22,9 @@ import com.notacompany.myaffairs.adapters.OnRecyclerProjectClicked
 import com.notacompany.myaffairs.adapters.ProjectsAdapter
 import com.notacompany.myaffairs.data.AppApplication
 import com.notacompany.myaffairs.data.model.Project
+import com.notacompany.myaffairs.data.model.Task
 import com.notacompany.myaffairs.ui.auth.AuthViewModel
+import java.util.*
 
 class ProjectsFragment : Fragment(R.layout.projects_fragment) {
 
@@ -34,6 +37,7 @@ class ProjectsFragment : Fragment(R.layout.projects_fragment) {
     private lateinit var recycler: RecyclerView
     private lateinit var signOutBtn: Button
     private lateinit var adapter: ProjectsAdapter
+    private lateinit var mProjectList: ArrayList<Project>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,6 +47,7 @@ class ProjectsFragment : Fragment(R.layout.projects_fragment) {
         initToolbar(view)
         setUpClickListener()
         showProjects()
+        createItemTouchHelper()
     }
 
     private fun initViews(view: View) {
@@ -85,6 +90,7 @@ class ProjectsFragment : Fragment(R.layout.projects_fragment) {
         projectViewModel.allProject.observe(requireActivity()) { projects ->
             // Update the cached copy of the words in the adapter.
             projects.let { adapter.submitList(it) }
+            mProjectList = projects as ArrayList<Project>
         }
     }
 
@@ -97,5 +103,48 @@ class ProjectsFragment : Fragment(R.layout.projects_fragment) {
         val intent = Intent(activity, AuthActivity::class.java)
         startActivity(intent)
         activity?.finish()
+    }
+
+    private fun createItemTouchHelper() {
+        val helper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN or
+                    ItemTouchHelper.START or ItemTouchHelper.END,
+            0) {
+
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                val from = viewHolder.adapterPosition
+                val to = target.adapterPosition
+                moveProject(from, to)
+                adapter.notifyItemMoved(from, to)
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            }
+        })
+        helper.attachToRecyclerView(recycler)
+    }
+
+    private fun moveProject(fromPosition: Int, toPosition: Int) {
+        if (fromPosition < toPosition) {
+            // Move down
+            for (i in fromPosition until toPosition) {
+                Collections.swap(mProjectList, i, i + 1)
+                mProjectList[i].position = i
+                mProjectList[i + 1].position = i + 1
+            }
+        } else {
+            // Move up
+            for (i in fromPosition downTo toPosition + 1) {
+                Collections.swap(mProjectList, i, i - 1)
+                mProjectList[i].position = i
+                mProjectList[i - 1].position = i - 1
+            }
+        }
+        projectViewModel.updateProjectOrder(mProjectList)
     }
 }

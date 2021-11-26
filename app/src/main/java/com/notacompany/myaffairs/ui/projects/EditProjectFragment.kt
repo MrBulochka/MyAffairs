@@ -93,7 +93,7 @@ class EditProjectFragment: Fragment(R.layout.add_project_fragment) {
         val deadline = textDate.text.toString()
         val description = editDescription.text.toString()
         if (!TextUtils.isEmpty(title)) {
-            projectViewModel.update(Project(project.id, title, description, deadline))
+            projectViewModel.updateProject(Project(project.id, title, description, deadline))
         }
     }
 }

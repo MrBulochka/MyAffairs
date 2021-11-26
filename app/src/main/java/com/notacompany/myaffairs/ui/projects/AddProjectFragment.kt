@@ -1,9 +1,11 @@
 package com.notacompany.myaffairs.ui.projects
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -41,6 +43,7 @@ class AddProjectFragment: Fragment(R.layout.add_project_fragment) {
 
     private fun initViews(view: View) {
         editName = view.findViewById(R.id.project_name_edit)
+        editName.showKeyboard()
         textDate = view.findViewById(R.id.textView_date)
         editDescription = view.findViewById(R.id.project_description)
         addButton = view.findViewById(R.id.add_button)
@@ -76,6 +79,12 @@ class AddProjectFragment: Fragment(R.layout.add_project_fragment) {
                 cal.get(Calendar.MONTH),
                 cal.get(Calendar.DAY_OF_MONTH)).show()
         }
+    }
+
+    private fun View.showKeyboard() {
+        this.requestFocus()
+        val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun createProject() {

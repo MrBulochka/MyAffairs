@@ -25,5 +25,4 @@ class AuthRepository {
     fun signOut() {
         FirebaseAuthSource().signOut()
     }
-
 }

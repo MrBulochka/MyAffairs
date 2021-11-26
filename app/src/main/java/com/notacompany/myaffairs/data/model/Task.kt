@@ -14,8 +14,10 @@ data class Task (
 
     val deadline: String,
 
-    val complete: Boolean,
+    var complete: Boolean,
 
     @ColumnInfo(name = "project_id")
-    val projectId: Long?
+    val projectId: Long?,
+
+    var position: Int = 0
 )

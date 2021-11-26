@@ -21,6 +21,7 @@
             android:textColor="@color/white_smoke"
             android:textSize="24sp"
             android:hint="@string/project_name"
+            android:textCursorDrawable="@drawable/white_cursor"
             android:backgroundTint="@android:color/transparent"/>
 
     </androidx.appcompat.widget.Toolbar>

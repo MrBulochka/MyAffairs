@@ -13,7 +13,9 @@ data class Project (
 
     val description: String,
 
-    val deadline: String
+    val deadline: String,
+
+    var position: Int = 0
 )
 
 data class ProjectsWithTasks(

@@ -11,14 +11,17 @@ interface TaskDao {
     @Query("SELECT * FROM tasks_table")
     fun getTasks(): Flow<List<Task>>
 
-    @Query("SELECT * FROM tasks_table WHERE project_id == :projectId")
-    suspend fun getProjectTasks(projectId: Long?): List<Task>
+    @Query("SELECT * FROM tasks_table WHERE project_id == :projectId ORDER BY position ")
+    fun getProjectTasks(projectId: Long?): Flow<List<Task>>
 
     @Insert
     suspend fun insert(task: Task)
 
     @Update
     suspend fun update(task: Task)
+
+    @Update
+    suspend fun updateTaskOrder(tasks: List<Task>)
 
     @Delete
     suspend fun delete(task: Task)

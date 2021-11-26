@@ -4,10 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -21,6 +21,7 @@ class RegistrFragment : Fragment() {
     private lateinit var passwordInput: EditText
     private lateinit var registerBtn: Button
     private lateinit var registerView: TextView
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -38,6 +39,7 @@ class RegistrFragment : Fragment() {
         passwordInput = view.findViewById(R.id.edit_password1)
         registerBtn = view.findViewById(R.id.reg_button)
         registerView = view.findViewById(R.id.switch_view)
+        progressBar = view.findViewById(R.id.progressBar)
     }
 
     private fun setUpClickListners() {
@@ -45,17 +47,24 @@ class RegistrFragment : Fragment() {
             findNavController().navigate(R.id.authorization) }
 
         registerBtn.setOnClickListener{
-            registration() }
+            registration()
+            registerBtn.isClickable = false
+            progressBar.visibility = VISIBLE
+        }
     }
 
     private fun subscribeObservers() {
         activity?.let {
             authViewModel.isAuthorized.observe(viewLifecycleOwner, {
-            if (it) {
-                moveToMainActivity()
-            }
+                if (it) {
+                    moveToMainActivity()
+                } else {
+                    registerBtn.isClickable = true
+                    progressBar.visibility = GONE
+                    Toast.makeText(this.context, "Что-то пошло не так", Toast.LENGTH_SHORT)
+                        .show()
+                }
             })
-
         }
     }
 

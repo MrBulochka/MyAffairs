@@ -12,10 +12,13 @@ import com.notacompany.myaffairs.R
 import com.notacompany.myaffairs.data.AppApplication
 import com.notacompany.myaffairs.data.model.Project
 import android.widget.*
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.notacompany.myaffairs.adapters.OnTaskClickListener
+import com.notacompany.myaffairs.adapters.ProjectsAdapter
 import com.notacompany.myaffairs.adapters.TasksAdapter
 import com.notacompany.myaffairs.data.model.Task
+import java.util.*
 
 
 class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
@@ -32,6 +35,7 @@ class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
     private lateinit var editIcon: ImageButton
     private lateinit var recycler: RecyclerView
     private lateinit var adapter: TasksAdapter
+    private lateinit var mTaskList: ArrayList<Task>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,6 +44,7 @@ class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
         initViews(view)
         initToolbar(view)
         showProject()
+        createItemTouchHelper()
         setUpClickListener()
     }
 
@@ -49,6 +54,7 @@ class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
         addButton = view.findViewById(R.id.add_button)
         editIcon = view.findViewById(R.id.edit_icon)
         recycler = view.findViewById(R.id.projectTasks_recycler)
+
         adapter = TasksAdapter(clickListener)
         recycler.adapter = adapter
     }
@@ -61,6 +67,7 @@ class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
 
     private fun setUpClickListener() {
         addButton.setOnClickListener {
+            projectViewModel.setTaskPosition(adapter.itemCount + 1)
             findNavController().navigate(R.id.action_projectCard_to_taskCard)
         }
         editIcon.setOnClickListener {
@@ -70,7 +77,7 @@ class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
             when (item.itemId) {
                 R.id.delete -> {
                     projectViewModel.deleteProject(project)
-                    projectViewModel.getProjectTasks(project.id)
+                    projectViewModel.deleteProjectTasks(project.id)
                     activity?.onBackPressed()
                 }
             }
@@ -81,18 +88,19 @@ class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
         override fun onCheckboxClick(task: Task, deleteBtn: ImageView, checkBox: CheckBox) {
             if (checkBox.isChecked) {
                 deleteBtn.visibility = View.VISIBLE
-                val completeTask = Task(task.taskId, task.name, task.deadline, true, task.projectId)
-                projectViewModel.updateTask(completeTask)
+//                val completeTask = Task(task.taskId, task.name, task.deadline, true, task.projectId, task.position)
+                task.complete = true
+                projectViewModel.updateTask(task)
             }else {
                 deleteBtn.visibility = View.GONE
-                val completeTask = Task(task.taskId, task.name, task.deadline, false, task.projectId)
-                projectViewModel.updateTask(completeTask)
+//                val completeTask = Task(task.taskId, task.name, task.deadline, false, task.projectId, task.position)
+                task.complete = false
+                projectViewModel.updateTask(task)
             }
         }
 
         override fun onDeleteBtnClick(task: Task) {
             projectViewModel.deleteTask(task)
-            projectViewModel.getProjectTasks(project.id)
         }
     }
 
@@ -101,13 +109,56 @@ class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
         toolbar.title = project.title
         textDescription.text = project.description
         textDeadline.text = project.deadline
-        showTasks(project.id)
+        showTasks()
     }
 
-    private fun showTasks(id: Long?) {
-        projectViewModel.getProjectTasks(id)
-        projectViewModel.projectTasks.observe(requireActivity()) { tasks ->
-            tasks.let { adapter.submitList(it) }
+    private fun showTasks() {
+        projectViewModel.projectTasks?.observe(requireActivity()) { tasks ->
+            tasks.let {
+                adapter.submitList(it) }
+            mTaskList = tasks as ArrayList<Task>
         }
+    }
+
+    private fun createItemTouchHelper() {
+        val helper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            0) {
+
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                val from = viewHolder.adapterPosition
+                val to = target.adapterPosition
+                moveTask(from, to)
+                adapter.notifyItemMoved(from, to)
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            }
+        })
+        helper.attachToRecyclerView(recycler)
+    }
+
+    private fun moveTask(fromPosition: Int, toPosition: Int) {
+        if (fromPosition < toPosition) {
+            // Move down
+            for (i in fromPosition until toPosition) {
+                Collections.swap(mTaskList, i, i + 1)
+                mTaskList[i].position = i
+                mTaskList[i + 1].position = i + 1
+            }
+        } else {
+            // Move up
+            for (i in fromPosition downTo toPosition + 1) {
+                Collections.swap(mTaskList, i, i - 1)
+                mTaskList[i].position = i
+                mTaskList[i - 1].position = i - 1
+            }
+        }
+        projectViewModel.updateTaskOrder(mTaskList)
     }
 }

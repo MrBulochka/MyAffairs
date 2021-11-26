@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProjectDao {
-    @Query("SELECT * FROM projects_table")
+    @Query("SELECT * FROM projects_table ORDER BY position")
     fun getProjects(): Flow<List<Project>>
 
     @Insert
@@ -16,6 +16,9 @@ interface ProjectDao {
 
     @Update
     suspend fun update(project: Project)
+
+    @Update
+    suspend fun updateProjectOrder(projects: List<Project>)
 
     @Delete
     suspend fun delete(project: Project)

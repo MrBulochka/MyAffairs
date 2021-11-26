@@ -2,7 +2,6 @@ package com.notacompany.myaffairs.adapters
 
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.CheckBox
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.notacompany.myaffairs.R
-import com.notacompany.myaffairs.data.model.Project
 import com.notacompany.myaffairs.data.model.Task
 
 class TasksAdapter(
@@ -38,15 +36,14 @@ class TasksAdapter(
     }
 
     class TasksViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val textName: TextView = itemView.findViewById(R.id.item_task_name)
+        private val textName: TextView = itemView.findViewById(R.id.itemTask_name)
         val checkBox: CheckBox = itemView.findViewById(R.id.checkbox)
         val deleteBtn: ImageView = itemView.findViewById(R.id.deleteTask_btn)
-//        private val deadline: TextView = itemView.findViewById(R.id.task_deadline)
-
+        private val deadline: TextView = itemView.findViewById(R.id.itemTask_deadline)
 
         fun onBind(task: Task) {
             textName.text = task.name
-//            deadline.text = task.deadline
+            deadline.text = task.deadline
             checkBox.isChecked = task.complete
             if (task.complete)
                 deleteBtn.visibility = VISIBLE

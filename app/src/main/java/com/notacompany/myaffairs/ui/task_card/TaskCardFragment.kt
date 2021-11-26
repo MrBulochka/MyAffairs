@@ -1,11 +1,14 @@
 package com.notacompany.myaffairs.ui.task_card
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -51,6 +54,7 @@ class TaskCardFragment : Fragment(R.layout.task_card_fragment) {
     private fun initViews(view: View) {
         addBtn = view.findViewById(R.id.add_button)
         nameEdit = view.findViewById(R.id.task_name)
+        nameEdit.showKeyboard()
         deadline = view.findViewById(R.id.deadline)
         setTimeBtn = view.findViewById(R.id.set_time_btn)
     }
@@ -86,12 +90,19 @@ class TaskCardFragment : Fragment(R.layout.task_card_fragment) {
         }
     }
 
+    private fun View.showKeyboard() {
+        this.requestFocus()
+        val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+    }
+
     private fun createTask() {
         project = projectViewModel.getProject()
         val name = nameEdit.text.toString()
         val deadline = deadline.text.toString()
+        val position = projectViewModel.getTaskPosition()
         if (!TextUtils.isEmpty(name)) {
-            projectViewModel.insertTask(Task(null, name, deadline, complete = false, project.id))
+            projectViewModel.insertTask(Task(null, name, deadline, false, project.id, position))
 
         }
     }

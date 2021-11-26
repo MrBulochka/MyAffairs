@@ -10,9 +10,18 @@ import kotlinx.coroutines.launch
 class ProjectViewModel(private val repository: DataRepository): ViewModel() {
 
     val allProject: LiveData<List<Project>> = repository.allProjects.asLiveData()
-    var projectTasks = MutableLiveData<List<Task>>()
+
+    val projectTasks: LiveData<List<Task>>? get() = _projectTasks
+    private var _projectTasks: LiveData<List<Task>>? = null
 
     private lateinit var project: Project
+
+    private var taskPosition = 0
+
+//    set(value) {
+//        _projectTasks = repository.getProjectTasks(value.id).asLiveData()
+//        field = value
+//    }
 
     fun deleteProject(project: Project) {
         viewModelScope.launch {
@@ -20,14 +29,21 @@ class ProjectViewModel(private val repository: DataRepository): ViewModel() {
         }
     }
 
-    fun update(project: Project) {
+    fun updateProject(project: Project) {
         viewModelScope.launch {
             repository.update(project)
         }
     }
 
+    fun updateProjectOrder(projects: List<Project>) {
+        viewModelScope.launch {
+            repository.updateProjectOrder(projects)
+        }
+    }
+
     fun setProject(project: Project) {
         this.project = project
+        _projectTasks = repository.getProjectTasks(project.id).asLiveData()
     }
 
     fun getProject() = project
@@ -44,6 +60,12 @@ class ProjectViewModel(private val repository: DataRepository): ViewModel() {
         }
     }
 
+    fun updateTaskOrder(tasks: List<Task>) {
+        viewModelScope.launch {
+            repository.updateTaskOrder(tasks)
+        }
+    }
+
     fun deleteTask(task: Task) {
         viewModelScope.launch {
             repository.deleteTask(task)
@@ -56,14 +78,13 @@ class ProjectViewModel(private val repository: DataRepository): ViewModel() {
         }
     }
 
-    fun getProjectTasks(id: Long?) {
-        viewModelScope.launch {
-            projectTasks.value = repository.getProjectTasks(id)
-            val tasks = projectTasks.value
-            Log.d("My TAG", "liveData \n $tasks")
-        }
+    fun setTaskPosition(position: Int) {
+        this.taskPosition = position
     }
 
+    fun getTaskPosition(): Int {
+        return taskPosition
+    }
 }
 
 class ProjectViewModelFactory(private val repository: DataRepository) : ViewModelProvider.Factory {
