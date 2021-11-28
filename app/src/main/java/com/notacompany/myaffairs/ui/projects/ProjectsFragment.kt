@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -22,7 +21,6 @@ import com.notacompany.myaffairs.adapters.OnRecyclerProjectClicked
 import com.notacompany.myaffairs.adapters.ProjectsAdapter
 import com.notacompany.myaffairs.data.AppApplication
 import com.notacompany.myaffairs.data.model.Project
-import com.notacompany.myaffairs.data.model.Task
 import com.notacompany.myaffairs.ui.auth.AuthViewModel
 import java.util.*
 
@@ -72,7 +70,7 @@ class ProjectsFragment : Fragment(R.layout.projects_fragment) {
 
     private fun setUpClickListener() {
         addProjectButton.setOnClickListener {
-            findNavController().navigate(R.id.action_projects_to_projectEdit)
+            findNavController().navigate(R.id.action_projects_to_projectAdd)
         }
 
         signOutBtn.setOnClickListener {

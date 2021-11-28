@@ -3,6 +3,7 @@ package com.notacompany.myaffairs.data.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.type.Date
 
 @Entity(tableName = "tasks_table")
 data class Task (
@@ -12,7 +13,7 @@ data class Task (
 
     val name: String,
 
-    val deadline: String,
+    val deadline: Long,
 
     var complete: Boolean,
 

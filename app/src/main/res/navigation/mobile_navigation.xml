@@ -10,7 +10,7 @@
         android:name="com.notacompany.myaffairs.ui.projects.ProjectsFragment"
         android:label="All projects"
         tools:layout="@layout/projects_fragment">
-        <action android:id="@+id/action_projects_to_projectEdit"
+        <action android:id="@+id/action_projects_to_projectAdd"
             app:destination="@id/add_project"/>
         <action android:id="@+id/action_projects_to_projectCard"
             app:destination="@id/project_card"/>

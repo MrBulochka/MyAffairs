@@ -1,6 +1,7 @@
 package com.notacompany.myaffairs.ui.projects
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -53,8 +54,8 @@ class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
         textDescription = view.findViewById(R.id.project_text_description)
         addButton = view.findViewById(R.id.add_button)
         editIcon = view.findViewById(R.id.edit_icon)
-        recycler = view.findViewById(R.id.projectTasks_recycler)
 
+        recycler = view.findViewById(R.id.projectTasks_recycler)
         adapter = TasksAdapter(clickListener)
         recycler.adapter = adapter
     }
@@ -91,6 +92,7 @@ class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
 //                val completeTask = Task(task.taskId, task.name, task.deadline, true, task.projectId, task.position)
                 task.complete = true
                 projectViewModel.updateTask(task)
+
             }else {
                 deleteBtn.visibility = View.GONE
 //                val completeTask = Task(task.taskId, task.name, task.deadline, false, task.projectId, task.position)

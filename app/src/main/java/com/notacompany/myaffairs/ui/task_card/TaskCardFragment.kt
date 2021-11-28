@@ -5,20 +5,18 @@ import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.notacompany.myaffairs.R
 import com.notacompany.myaffairs.data.AppApplication
 import com.notacompany.myaffairs.data.model.Project
@@ -38,7 +36,7 @@ class TaskCardFragment : Fragment(R.layout.task_card_fragment) {
     private lateinit var nameEdit: EditText
     private lateinit var deadline: TextView
     private lateinit var setTimeBtn: Button
-    private var cal = Calendar.getInstance()
+    private var calendar = Calendar.getInstance()
     private lateinit var dateSetListener: DatePickerDialog.OnDateSetListener
     private lateinit var project: Project
 
@@ -67,14 +65,14 @@ class TaskCardFragment : Fragment(R.layout.task_card_fragment) {
 
     private fun initDatePicker() {
         dateSetListener = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-            cal.set(Calendar.YEAR, year)
-            cal.set(Calendar.MONTH, monthOfYear)
-            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, monthOfYear)
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
             val myFormat = "dd.MM.yyyy"
             val sdf = SimpleDateFormat(myFormat, Locale.US)
-            deadline.text = sdf.format(cal.time)
+            deadline.text = sdf.format(calendar.time)
         }
+
     }
 
     private fun setUpClickListeners() {
@@ -82,11 +80,15 @@ class TaskCardFragment : Fragment(R.layout.task_card_fragment) {
             createTask()
             activity?.onBackPressed()
         }
+
         setTimeBtn.setOnClickListener {
             DatePickerDialog(requireActivity(), dateSetListener,
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH)).show()
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)).show()
+
+            Log.d("setTime", "${calendar.time}")
+            deadline.visibility = VISIBLE
         }
     }
 
@@ -99,10 +101,12 @@ class TaskCardFragment : Fragment(R.layout.task_card_fragment) {
     private fun createTask() {
         project = projectViewModel.getProject()
         val name = nameEdit.text.toString()
-        val deadline = deadline.text.toString()
+        var date = 0L
+        if (deadline.isVisible)
+            date = calendar.timeInMillis
         val position = projectViewModel.getTaskPosition()
         if (!TextUtils.isEmpty(name)) {
-            projectViewModel.insertTask(Task(null, name, deadline, false, project.id, position))
+            projectViewModel.insertTask(Task(null, name, date, false, project.id, position))
 
         }
     }

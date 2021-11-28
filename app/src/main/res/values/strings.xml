@@ -21,5 +21,6 @@
     <string name="new_task">New task</string>
     <string name="create_btn">Create</string>
     <string name="save_btn">Save</string>
+    <string name="no_date_assigned">no date assigned</string>
 
 </resources>

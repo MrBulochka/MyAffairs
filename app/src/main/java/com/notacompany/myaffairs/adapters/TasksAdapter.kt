@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.notacompany.myaffairs.R
+import com.notacompany.myaffairs.utils.DateAndTimeFormatter
 import com.notacompany.myaffairs.data.model.Task
 
 class TasksAdapter(
@@ -43,7 +44,8 @@ class TasksAdapter(
 
         fun onBind(task: Task) {
             textName.text = task.name
-            deadline.text = task.deadline
+            if (task.deadline != 0L)
+                deadline.text = DateAndTimeFormatter.getDate(task.deadline)
             checkBox.isChecked = task.complete
             if (task.complete)
                 deleteBtn.visibility = VISIBLE

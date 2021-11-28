@@ -11,6 +11,7 @@ class DataRepository(private val projectDao: ProjectDao,
                      private val taskDao: TaskDao) {
 
     val allProjects: Flow<List<Project>> = projectDao.getProjects()
+    val allTasks: Flow<List<Task>> = taskDao.getTasks()
 
     suspend fun insertProject(project: Project) {
         projectDao.insert(project)

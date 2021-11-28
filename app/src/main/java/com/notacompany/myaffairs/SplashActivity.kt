@@ -10,7 +10,6 @@ import kotlinx.coroutines.*
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var authViewModel: AuthViewModel
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,10 +17,7 @@ class SplashActivity : AppCompatActivity() {
 
         authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
 
-        scope.launch {
-            authViewModel.isAuthenticatedUser()
-        }
-
+        authViewModel.isAuthenticatedUser()
         authViewModel.isAuthorized.observe(this, {
             if (it) {
                 moveToMainActivity()
