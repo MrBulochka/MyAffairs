@@ -2,6 +2,7 @@ package com.notacompany.myaffairs.adapters
 
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.CheckBox
@@ -14,13 +15,17 @@ import com.notacompany.myaffairs.R
 import com.notacompany.myaffairs.utils.DateAndTimeFormatter
 import com.notacompany.myaffairs.data.model.Task
 
+typealias CheckBoxListener = (Task, ImageView, CheckBox) -> Unit
+typealias DeleteBtnClickListener = (Task) -> Unit
+
 class TasksAdapter(
-    private val clickListener: OnTaskClickListener
+    private val onCheckBoxClick: CheckBoxListener,
+    private val onDeleteBtnClick: DeleteBtnClickListener
 ): ListAdapter<Task, TasksAdapter.TasksViewHolder>(TasksComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TasksViewHolder {
         val itemView: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.task_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false)
 
         return TasksViewHolder(itemView)
     }
@@ -29,10 +34,10 @@ class TasksAdapter(
         val task = getItem(position)
         holder.onBind(task)
         holder.checkBox.setOnClickListener {
-            clickListener.onCheckboxClick(task, holder.deleteBtn, holder.checkBox)
+            onCheckBoxClick(task, holder.deleteBtn, holder.checkBox)
         }
         holder.deleteBtn.setOnClickListener {
-            clickListener.onDeleteBtnClick(task)
+            onDeleteBtnClick(task)
         }
     }
 
@@ -46,9 +51,12 @@ class TasksAdapter(
             textName.text = task.name
             if (task.deadline != 0L)
                 deadline.text = DateAndTimeFormatter.getDate(task.deadline)
+
             checkBox.isChecked = task.complete
-            if (task.complete)
+            if (checkBox.isChecked)
                 deleteBtn.visibility = VISIBLE
+            else
+                deleteBtn.visibility = GONE
         }
     }
 
@@ -60,10 +68,4 @@ class TasksAdapter(
             return oldItem == newItem
         }
     }
-}
-
-interface OnTaskClickListener {
-    fun onCheckboxClick(task: Task, deleteBtn: ImageView, checkBox: CheckBox)
-
-    fun onDeleteBtnClick(task: Task)
 }

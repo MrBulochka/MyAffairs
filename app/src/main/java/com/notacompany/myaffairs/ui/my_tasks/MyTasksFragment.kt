@@ -13,14 +13,11 @@ import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.notacompany.myaffairs.R
-import com.notacompany.myaffairs.adapters.OnTaskClickListener
 import com.notacompany.myaffairs.adapters.TasksAdapter
 import com.notacompany.myaffairs.data.AppApplication
 import com.notacompany.myaffairs.data.model.Task
-import com.notacompany.myaffairs.ui.projects.AddProjectViewModel
-import com.notacompany.myaffairs.ui.projects.AddProjectViewModelFactory
 
-class MyTasksFragment : Fragment(R.layout.my_tasks_fragment) {
+class MyTasksFragment: Fragment(R.layout.fragment_my_tasks) {
 
     private val myTasksViewModel: MyTasksViewModel by viewModels {
         MyTasksViewModelFactory((activity?.application as AppApplication).repository)
@@ -34,7 +31,7 @@ class MyTasksFragment : Fragment(R.layout.my_tasks_fragment) {
         super.onViewCreated(view, savedInstanceState)
 
         initViews(view)
-        initToolbar(view)
+        initNavigation(view)
         setUpClickListener()
         showTasks()
     }
@@ -43,15 +40,20 @@ class MyTasksFragment : Fragment(R.layout.my_tasks_fragment) {
         addTaskBtn = view.findViewById(R.id.add_my_task_button)
 
         recycler = view.findViewById(R.id.my_tasks_recycler)
-        adapter = TasksAdapter(clickListener)
+        adapter = TasksAdapter(
+            onCheckBoxClick = this::onCheckBoxClick,
+            onDeleteBtnClick = this::onDeleteBtnClick)
         recycler.adapter = adapter
     }
 
-    private fun initToolbar(view: View) {
+    private fun initNavigation(view: View) {
         val toolbar = view.findViewById<androidx.appcompat.widget.Toolbar>(R.id.my_tasks_toolbar)
         val appBarConfiguration = AppBarConfiguration(setOf(
             R.id.navigation_my_tasks,
-            R.id.navigation_projects))
+            R.id.navigation_projects,
+            R.id.navigation_notification,
+            R.id.navigation_profile
+        ))
         val navHostFragment = NavHostFragment.findNavController(this)
         NavigationUI.setupWithNavController(toolbar, navHostFragment, appBarConfiguration)
     }
@@ -60,25 +62,22 @@ class MyTasksFragment : Fragment(R.layout.my_tasks_fragment) {
         addTaskBtn.setOnClickListener {
             findNavController().navigate(R.id.action_myTasks_to_taskCard) }
     }
-    private val clickListener = object : OnTaskClickListener {
-        override fun onCheckboxClick(task: Task, deleteBtn: ImageView, checkBox: CheckBox) {
-            if (checkBox.isChecked) {
-                deleteBtn.visibility = View.VISIBLE
-//                val completeTask = Task(task.taskId, task.name, task.deadline, true, task.projectId, task.position)
-                task.complete = true
-                myTasksViewModel.updateTask(task)
 
-            }else {
-                deleteBtn.visibility = View.GONE
-//                val completeTask = Task(task.taskId, task.name, task.deadline, false, task.projectId, task.position)
-                task.complete = false
-                myTasksViewModel.updateTask(task)
-            }
-        }
+    private fun onCheckBoxClick(task: Task, deleteBtn: ImageView, checkBox: CheckBox) {
+        if (checkBox.isChecked) {
+            deleteBtn.visibility = View.VISIBLE
+            task.complete = true
+            myTasksViewModel.updateTask(task)
 
-        override fun onDeleteBtnClick(task: Task) {
-            myTasksViewModel.deleteTask(task)
+        }else {
+            deleteBtn.visibility = View.GONE
+            task.complete = false
+            myTasksViewModel.updateTask(task)
         }
+    }
+
+    private fun onDeleteBtnClick(task: Task) {
+        myTasksViewModel.deleteTask(task)
     }
 
     private fun showTasks() {

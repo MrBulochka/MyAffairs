@@ -1,10 +1,9 @@
-package com.notacompany.myaffairs.ui.projects
+package com.notacompany.myaffairs.ui.add_project
 
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -21,7 +20,7 @@ import com.notacompany.myaffairs.data.model.Project
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AddProjectFragment: Fragment(R.layout.add_project_fragment) {
+class AddProjectFragment: Fragment(R.layout.fragment_add_project) {
 
     private val addProjectViewModel: AddProjectViewModel by viewModels {
         AddProjectViewModelFactory((activity?.application as AppApplication).repository)

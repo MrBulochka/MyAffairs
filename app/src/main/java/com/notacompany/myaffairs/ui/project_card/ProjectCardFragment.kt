@@ -1,4 +1,4 @@
-package com.notacompany.myaffairs.ui.projects
+package com.notacompany.myaffairs.ui.project_card
 
 import android.os.Bundle
 import android.util.Log
@@ -8,24 +8,24 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.notacompany.myaffairs.R
 import com.notacompany.myaffairs.data.AppApplication
 import com.notacompany.myaffairs.data.model.Project
 import android.widget.*
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.notacompany.myaffairs.adapters.OnTaskClickListener
-import com.notacompany.myaffairs.adapters.ProjectsAdapter
 import com.notacompany.myaffairs.adapters.TasksAdapter
 import com.notacompany.myaffairs.data.model.Task
+import com.notacompany.myaffairs.ui.SharedViewModel
 import java.util.*
 
 
-class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
+class ProjectCardFragment : Fragment(R.layout.fragment_project_card) {
 
-    private val projectViewModel: ProjectViewModel by activityViewModels {
-        ProjectViewModelFactory((activity?.application as AppApplication).repository)
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val projectCardViewModel: ProjectCardViewModel by viewModels {
+        ProjectCardViewModelFactory((activity?.application as AppApplication).repository)
     }
 
     private lateinit var textDeadline: TextView
@@ -55,8 +55,11 @@ class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
         addButton = view.findViewById(R.id.add_button)
         editIcon = view.findViewById(R.id.edit_icon)
 
+        //init recyclerView
         recycler = view.findViewById(R.id.projectTasks_recycler)
-        adapter = TasksAdapter(clickListener)
+        adapter = TasksAdapter(
+            onCheckBoxClick = this::onCheckBoxClick,
+            onDeleteBtnClick = this::onDeleteBtnClick)
         recycler.adapter = adapter
     }
 
@@ -68,7 +71,7 @@ class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
 
     private fun setUpClickListener() {
         addButton.setOnClickListener {
-            projectViewModel.setTaskPosition(adapter.itemCount + 1)
+            sharedViewModel.setTaskPosition(adapter.itemCount)
             findNavController().navigate(R.id.action_projectCard_to_taskCard)
         }
         editIcon.setOnClickListener {
@@ -77,45 +80,45 @@ class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
         toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.delete -> {
-                    projectViewModel.deleteProject(project)
-                    projectViewModel.deleteProjectTasks(project.id)
+                    projectCardViewModel.deleteProject(project)
+                    projectCardViewModel.deleteProjectTasks(project.id)
                     activity?.onBackPressed()
                 }
             }
             false
         }
     }
-    private val clickListener = object : OnTaskClickListener {
-        override fun onCheckboxClick(task: Task, deleteBtn: ImageView, checkBox: CheckBox) {
-            if (checkBox.isChecked) {
-                deleteBtn.visibility = View.VISIBLE
-//                val completeTask = Task(task.taskId, task.name, task.deadline, true, task.projectId, task.position)
-                task.complete = true
-                projectViewModel.updateTask(task)
 
-            }else {
-                deleteBtn.visibility = View.GONE
-//                val completeTask = Task(task.taskId, task.name, task.deadline, false, task.projectId, task.position)
-                task.complete = false
-                projectViewModel.updateTask(task)
-            }
-        }
+    private fun onCheckBoxClick(task: Task, deleteBtn: ImageView, checkBox: CheckBox) {
+        if (checkBox.isChecked) {
+            deleteBtn.visibility = View.VISIBLE
+            mTaskList[task.position].complete = true
+            projectCardViewModel.updateTask(mTaskList[task.position])
 
-        override fun onDeleteBtnClick(task: Task) {
-            projectViewModel.deleteTask(task)
+        }else {
+            deleteBtn.visibility = View.GONE
+            mTaskList[task.position].complete = false
+            projectCardViewModel.updateTask(mTaskList[task.position])
         }
+    }
+
+    private fun onDeleteBtnClick(task: Task) {
+        projectCardViewModel.deleteTask(task)
     }
 
     private fun showProject() {
-        project = projectViewModel.getProject()
-        toolbar.title = project.title
-        textDescription.text = project.description
-        textDeadline.text = project.deadline
-        showTasks()
+        sharedViewModel.selected.observe(viewLifecycleOwner) {
+            project = it
+            toolbar.title = project.title
+            textDescription.text = project.description
+            textDeadline.text = project.deadline
+            projectCardViewModel.getProjectTasks(project)
+            showTasks()
+        }
     }
 
     private fun showTasks() {
-        projectViewModel.projectTasks?.observe(requireActivity()) { tasks ->
+        projectCardViewModel.projectTasks?.observe(viewLifecycleOwner) { tasks ->
             tasks.let {
                 adapter.submitList(it) }
             mTaskList = tasks as ArrayList<Task>
@@ -161,6 +164,6 @@ class ProjectCardFragment : Fragment(R.layout.project_card_fragment) {
                 mTaskList[i - 1].position = i - 1
             }
         }
-        projectViewModel.updateTaskOrder(mTaskList)
+        projectCardViewModel.updateTaskOrder(mTaskList)
     }
 }

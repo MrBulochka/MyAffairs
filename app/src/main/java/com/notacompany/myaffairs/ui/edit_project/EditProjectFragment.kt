@@ -1,4 +1,4 @@
-package com.notacompany.myaffairs.ui.projects
+package com.notacompany.myaffairs.ui.edit_project
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
@@ -16,13 +17,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.notacompany.myaffairs.R
 import com.notacompany.myaffairs.data.AppApplication
 import com.notacompany.myaffairs.data.model.Project
+import com.notacompany.myaffairs.ui.SharedViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class EditProjectFragment: Fragment(R.layout.add_project_fragment) {
+class EditProjectFragment: Fragment(R.layout.fragment_add_project) {
 
-    private val projectViewModel: ProjectViewModel by activityViewModels {
-        ProjectViewModelFactory((activity?.application as AppApplication).repository)
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+    private val editProjectViewModel: EditProjectViewModel by viewModels {
+        EditProjectViewModelFactory((activity?.application as AppApplication).repository)
     }
 
     private lateinit var editName: EditText
@@ -34,11 +37,14 @@ class EditProjectFragment: Fragment(R.layout.add_project_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initViews(view)
         initToolbar(view)
         initDatePicker()
         getProject()
         setUpClickListener()
+
+        sharedViewModel.selected.observe(viewLifecycleOwner) { project = it }
     }
 
     private fun initViews(view: View) {
@@ -82,7 +88,6 @@ class EditProjectFragment: Fragment(R.layout.add_project_fragment) {
     }
 
     private fun getProject() {
-        project = projectViewModel.getProject()
         editName.setText(project.title)
         editDescription.setText(project.description)
         textDate.text = project.deadline
@@ -93,7 +98,7 @@ class EditProjectFragment: Fragment(R.layout.add_project_fragment) {
         val deadline = textDate.text.toString()
         val description = editDescription.text.toString()
         if (!TextUtils.isEmpty(title)) {
-            projectViewModel.updateProject(Project(project.id, title, description, deadline))
+            editProjectViewModel.updateProject(Project(project.id, title, description, deadline))
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.notacompany.myaffairs.ui.projects
+package com.notacompany.myaffairs.ui.add_project
 
 import androidx.lifecycle.*
 import com.notacompany.myaffairs.data.model.Project

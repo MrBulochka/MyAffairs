@@ -22,5 +22,9 @@
     <string name="create_btn">Create</string>
     <string name="save_btn">Save</string>
     <string name="no_date_assigned">no date assigned</string>
+    <string name="profile">Profile</string>
+    <string name="change_name_btn">Change Name</string>
+    <string name="change_avatar_btn">change_avatar</string>
+    <string name="notifications">Notifications</string>
 
 </resources>

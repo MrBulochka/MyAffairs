@@ -1,6 +1,5 @@
 package com.notacompany.myaffairs.ui.auth
 
-import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +10,6 @@ import kotlinx.coroutines.launch
 class AuthViewModel : ViewModel() {
 
     private val _isAuthorized = MutableLiveData<Boolean>()
-
     val isAuthorized: LiveData<Boolean> get() = _isAuthorized
 
     fun signIn(email: String?, password: String?) {

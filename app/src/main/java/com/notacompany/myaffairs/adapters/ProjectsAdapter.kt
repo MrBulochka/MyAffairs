@@ -12,13 +12,15 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.notacompany.myaffairs.R
 import com.notacompany.myaffairs.data.model.Project
 
+typealias ProjectClickListener = (Project) -> Unit
+
 class ProjectsAdapter(
-    private val clickListener: OnRecyclerProjectClicked
+    private val clickListener: ProjectClickListener
     ): ListAdapter<Project, ProjectsAdapter.ProjectsViewHolder>(ProjectsComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProjectsViewHolder {
         val itemView: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.project_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_project, parent, false)
         val layoutParams = itemView.layoutParams
         layoutParams.height = (parent.height / 3.5).toInt()
         itemView.layoutParams = layoutParams
@@ -30,7 +32,7 @@ class ProjectsAdapter(
         val project = getItem(position)
         holder.onBind(project)
         holder.itemView.setOnClickListener {
-            clickListener.onClick(project)
+            clickListener(project)
         }
     }
 
@@ -54,10 +56,6 @@ class ProjectsAdapter(
             return oldItem == newItem
         }
     }
-}
-
-interface OnRecyclerProjectClicked {
-    fun onClick(project: Project)
 }
 
 class GridSpacingItemDecoration(private val spanCount: Int, private val spacing: Int) :

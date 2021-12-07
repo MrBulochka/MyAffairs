@@ -2,7 +2,6 @@ package com.notacompany.myaffairs.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -14,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.notacompany.myaffairs.MainActivity
 import com.notacompany.myaffairs.R
 
-class AuthFragment : Fragment(R.layout.auth_fragment) {
+class AuthFragment : Fragment(R.layout.fragment_auth) {
 
     private lateinit var authViewModel: AuthViewModel
 
